@@ -1,0 +1,4 @@
+[submodule "LLSM5DTools"]
+	path = LLSM5DTools
+	url = https://github.com/abcucberkeley/LLSM5DTools.git
+	branch = master
