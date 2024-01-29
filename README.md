@@ -21,3 +21,5 @@ git pull --recurse-submodules
 * The scripts for the 2D analysis require the root directory to contain separate subdirectories for each individual video, which in turn contains the csv files for puncta localization and tracking obtained from **ThunderSTORM**, and the tif files for both the masks. 
 
 * All functional dependencies are located in the `util_functions/` directory and `LLSM5DTools/` submodule.
+
+* The `nuclei_denoising_model/` directory contains a deep learning model trained using **CARE** for denoising the nuclei channel.
