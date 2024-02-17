@@ -8,13 +8,16 @@ addpath(genpath('../util_functions/'));
 
 %% Load data
 
-rootdir = '/clusterfs_m/nvme/Data/20220601_Korra_MedhaGroupVisit/2DActivityData_combined_22_23/20230809_AllTIFFfiles_v2/NonBaptaWT/140um/'; % root directory containing the subdirectories for each video, which consists of the csv files for the detections and the corresponding masks
+% root directory containing the subdirectories for each video, which consists of the csv files for the detections and the corresponding masks
+% For replicating the density scatter and frequency distribution plots in https://doi.org/10.1101/2023.12.22.573117,the dataset can be downloaded from
+% https://doi.org/10.5061/dryad.w6m905qwm, and the rootdir path needs to be changed accordingly.
+rootdir = '/clusterfs_m/nvme/sayan/dryad/three_plane_stack_data/NonBaptaWT/140um/';
 
-csv_list = dir(fullfile(rootdir, '**/*Sigma280_MinSegments3_Gap1_Distance3_FinalTracks.csv')); % All csv files corresponding to specific filtering conditions obtained from performing point localization and tracking using ThunderSTORM
-save_str = 'All_WT_NonBapta_140um_locs_Sigma280_MinSegments3_Gap1_Distance3_FinalTracks'; % filename string for plots
+csv_list = dir(fullfile(rootdir, '**/*FinalTracks_filtered.csv')); % All csv files corresponding to specific filtering conditions obtained from performing puncta localization and tracking using ThunderSTORM
+save_str = 'All_WT_NonBapta_140um_FinalTracks'; % filename string for plots
 
 lumen_list = dir(fullfile(rootdir, '**/*lumen*.tif')); % Lumen Edge Mask files
-outer_list = dir(fullfile(rootdir, '**/*mnr*.tif')); % Outer Edge Mask files
+outer_list = dir(fullfile(rootdir, '**/*outer*.tif')); % Outer Edge Mask files
 csv_filenames = {csv_list.name};
 csv_filepaths = {csv_list.folder};
 lumen_filenames = {lumen_list.name};
@@ -109,7 +112,7 @@ for f = 1:numel(csv_filenames)
     outer_cdf_vals = [outer_cdf_vals; interp1(outer_x(2:end), outer_f(2:end), 0:1:80)];
 end
 
-%% Store the CDF values per video
+%% Store the CDF values per video of the distances from masks
 
 % Correction for NaN values
 for i=1:numel(lumen_cdf_vals(:, 1))
@@ -137,11 +140,11 @@ end
 lumen_cdf_vals_final = [headers; lumen_cdf_vals_final];
 outer_cdf_vals_final = [headers; outer_cdf_vals_final];
 
-cdf_filename = 'All_WT_NonBapta_140um_locs_Sigma280_MinSegments3_Gap1_Distance3_FinalTracks_per_file.xlsx';
+cdf_filename = 'All_WT_NonBapta_140um_FinalTracks_per_file.xlsx';
 writecell(lumen_cdf_vals_final, [rootdir cdf_filename], 'Sheet', 'Lumen');
 writecell(outer_cdf_vals_final, [rootdir cdf_filename], 'Sheet', 'Outer Edge');
 
-%% Store the combined CDF values across all videos
+%% Store the combined CDF values across all videos of the distances from masks
 
 [lumen_comb_f, lumen_comb_x] = ecdf(lumen_dist_arr);
 lumen_cdf_comb_vals = [interp1(lumen_comb_x(2:end), lumen_comb_f(2:end), 0:1:80)];
@@ -170,7 +173,7 @@ end
 lumen_cdf_comb_vals_final = [headers; num2cell(lumen_cdf_comb_vals)];
 outer_cdf_comb_vals_final = [headers; num2cell(outer_cdf_comb_vals)];
 
-cdf_comb_filename = 'All_WT_NonBapta_140um_locs_Sigma280_MinSegments3_Gap1_Distance3_FinalTracks_combined.xlsx';
+cdf_comb_filename = 'All_WT_NonBapta_140um_FinalTracks_combined.xlsx';
 writecell(lumen_cdf_comb_vals_final, [rootdir cdf_comb_filename], 'Sheet', 'Lumen');
 writecell(outer_cdf_comb_vals_final, [rootdir cdf_comb_filename], 'Sheet', 'Outer Edge');
 

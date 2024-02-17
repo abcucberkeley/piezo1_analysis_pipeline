@@ -8,9 +8,12 @@ addpath(genpath('../util_functions/'));
 
 %% Load data
 
-rt = '/clusterfs_m/nvme/sayan/20220601_Korra_MedhaGroupVisit/volumetric_2023_1/exp1_140um_2/HaloLigand/results/'; % directory containing the results obtained from point detection performed using LLSM5DTools
-
-data = load([rt 'Detection3D.mat']).frameInfo;
+% directory containing the results obtained from point detection performed using LLSM5DTools
+% For replicating the synthetic volumes used for visualization purposes in https://doi.org/10.1101/2023.12.22.573117,the dataset can be downloaded from
+% https://doi.org/10.5061/dryad.w6m905qwm, and the rootdir path needs to be changed accordingly.
+rootdir = '/clusterfs_m/nvme/sayan/dryad/volumetric_data/WT/exp1_140um_2/HaloLigand/results/'; 
+ 
+data = load([rootdir 'Detection3D.mat']).frameInfo;
 
 %% Extract the necessary information required for filtering and creating the synthetic volumes
 
@@ -67,7 +70,7 @@ toc
 % SE = strel("sphere",3); 
 % syn_vol_piezo1_dil = imdilate(syn_vol_piezo1, SE);
 
-writetiff(uint16(syn_vol_piezo1), [rt 'synthetic_vol_piezo1_puncta_detections.tif']);
+writetiff(uint16(syn_vol_piezo1), [rootdir 'synthetic_vol_piezo1_puncta_detections.tif']);
 
 %% Extracting autofluorescence blobs
 
@@ -110,7 +113,7 @@ toc
 % SE = strel("sphere",3); 
 % syn_vol_blob_dil = imdilate(syn_vol_blob, SE);
 
-writetiff(uint16(syn_vol_blob), [rt 'synthetic_vol_autofluorescence_blobs.tif']);
+writetiff(uint16(syn_vol_blob), [rootdir 'synthetic_vol_autofluorescence_blobs.tif']);
 
 %% Local density map of PIEZO1 detections
 
@@ -140,7 +143,7 @@ toc
 SE = strel("sphere",3); 
 syn_vol_density_dil = imdilate(syn_vol_density, SE);
 
-writetiff(uint16(syn_vol_density_dil), [rt 'synthetic_vol_piezo1_local_density_map.tif']);
+writetiff(uint16(syn_vol_density_dil), [rootdir 'synthetic_vol_piezo1_local_density_map.tif']);
 
 %% Density Scatter Plot of fitted amplitude and local background
 % 
