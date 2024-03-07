@@ -22,7 +22,7 @@ git pull --recurse-submodules
     
 * The scripts for the 2D analysis require the root directory to contain separate subdirectories for each individual video. Each subdirectory should contain a "results" folder, which stores the csv files for puncta localization and tracking obtained from **ThunderSTORM**, and an "actin_mask" folder, which stores the tif files for both the lumen and outer edge masks.
 
-* The density scatter and frequency distribution plots shown in the paper [PIEZO1-HaloTag hiPSCs: Bridging Molecular, Cellular and Tissue Imaging](https://doi.org/10.1101/2023.12.22.573117) can be replicated by downloading the dataset from https://doi.org/10.5061/dryad.w6m905qwm or https://datadryad.org/stash/share/GbnfBzRVZkc0CAQNnly4U7l57etHAbCX2p_xBZtPTQc, and running the scripts in the `main_pipeline/` directory, after setting the correct path for rootdir.
+* The density scatter and frequency distribution plots shown in the paper [PIEZO1-HaloTag hiPSCs: Bridging Molecular, Cellular and Tissue Imaging](https://doi.org/10.1101/2023.12.22.573117) can be replicated by downloading the dataset from https://doi.org/10.5061/dryad.w6m905qwm, and running the scripts in the `main_pipeline/` directory, after setting the correct path for rootdir.
 
 * All functional dependencies are located in the `util_functions/` directory and `LLSM5DTools/` submodule.
 
