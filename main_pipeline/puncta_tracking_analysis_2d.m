@@ -11,7 +11,11 @@ addpath(genpath('../util_functions/'));
 % root directory containing the subdirectories for each video, which consists of the csv files for the detections and the corresponding masks
 % For replicating the density scatter and frequency distribution plots in https://doi.org/10.1101/2023.12.22.573117,the dataset can be downloaded from
 % https://doi.org/10.5061/dryad.w6m905qwm, and the rootdir path needs to be changed accordingly.
-rootdir = '/clusterfs_m/nvme/sayan/dryad/three_plane_stack_data/NonBaptaWT/140um/';
+rootdir = '/home/sayanseal/doi_10_5061_dryad_w6m905qwm__v20240307/three_plane_stack_data/NonBaptaWT/140um/';
+
+% directory to store the results
+resultsdir = [rootdir 'results/'];
+mkdir(resultsdir);
 
 csv_list = dir(fullfile(rootdir, '**/*FinalTracks_filtered.csv')); % All csv files corresponding to specific filtering conditions obtained from performing puncta localization and tracking using ThunderSTORM
 save_str = 'All_WT_NonBapta_140um_FinalTracks'; % filename string for plots
@@ -141,8 +145,8 @@ lumen_cdf_vals_final = [headers; lumen_cdf_vals_final];
 outer_cdf_vals_final = [headers; outer_cdf_vals_final];
 
 cdf_filename = 'All_WT_NonBapta_140um_FinalTracks_per_file.xlsx';
-writecell(lumen_cdf_vals_final, [rootdir cdf_filename], 'Sheet', 'Lumen');
-writecell(outer_cdf_vals_final, [rootdir cdf_filename], 'Sheet', 'Outer Edge');
+writecell(lumen_cdf_vals_final, [resultsdir cdf_filename], 'Sheet', 'Lumen');
+writecell(outer_cdf_vals_final, [resultsdir cdf_filename], 'Sheet', 'Outer Edge');
 
 %% Store the combined CDF values across all videos of the distances from masks
 
@@ -174,8 +178,8 @@ lumen_cdf_comb_vals_final = [headers; num2cell(lumen_cdf_comb_vals)];
 outer_cdf_comb_vals_final = [headers; num2cell(outer_cdf_comb_vals)];
 
 cdf_comb_filename = 'All_WT_NonBapta_140um_FinalTracks_combined.xlsx';
-writecell(lumen_cdf_comb_vals_final, [rootdir cdf_comb_filename], 'Sheet', 'Lumen');
-writecell(outer_cdf_comb_vals_final, [rootdir cdf_comb_filename], 'Sheet', 'Outer Edge');
+writecell(lumen_cdf_comb_vals_final, [resultsdir cdf_comb_filename], 'Sheet', 'Lumen');
+writecell(outer_cdf_comb_vals_final, [resultsdir cdf_comb_filename], 'Sheet', 'Outer Edge');
 
 %% CDF plots for the standard deviation of the x and y position of the tracks
 % 
@@ -207,7 +211,7 @@ set(gca, 'PlotBoxAspectRatio', [1,1,1]);
 set(gca, 'FontName', 'Arial', 'FontSize', 23);
 set(gca, 'Position', [.12,.15,.75,.75]);
 save_filename = ['Density_Scatter_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
 
 %% Frequency Distribution Plots of distances from Lumen Edge
 
@@ -221,7 +225,7 @@ set(gca, 'Position', [.14,.12,.75,.75]);
 pbaspect([1,1,1]);
 box on
 save_filename = ['Density_Lumen_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
 
 %% Frequency Distribution Plots of distances from Outer Edge
 
@@ -234,7 +238,7 @@ pbaspect([1,1,1]);
 set(gca, 'Position', [.14,.12,.75,.75]);
 box on
 save_filename = ['Density_Outer_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
 
 %% Density Scatter Plot for each video (103 videos in total)
 
@@ -288,7 +292,7 @@ c = colorbar(h, 'Position', [0.93 0.22 0.01 0.65], 'Ticks', 0:0.5e-3:5.5e-3);
 colormap(c,'jet')
 clim(h,[0 5.5e-3]);
 save_filename = ['Density_Scatter_individual_1-40_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
 
 fig = figure();
 fig.Position = [1000, 1000, 1020, 1320];
@@ -340,7 +344,7 @@ c = colorbar(h, 'Position', [0.93 0.22 0.01 0.65], 'Ticks', 0:0.5e-3:5.5e-3);
 colormap(c,'jet')
 clim(h,[0 5.5e-3]);
 save_filename = ['Density_Scatter_individual_41-80_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
 
 fig = figure();
 fig.Position = [1000, 1000, 1020, 1320];
@@ -394,4 +398,4 @@ c = colorbar(h, 'Position',[0.93 0.5 0.01 0.4], 'Ticks', 0:0.5e-3:5.5e-3);
 colormap(c,'jet')
 clim(h,[0 5.5e-3]);
 save_filename = ['Density_Scatter_individual_81-103_' save_str  '.svg'];
-saveas(gcf, [rootdir save_filename]);
+saveas(gcf, [resultsdir save_filename]);
