@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/748851099.svg)](https://doi.org/10.5281/zenodo.15041678)
 # PIEZO1 puncta localization analysis pipeline
 
 ## Git Clone repository to your host system
